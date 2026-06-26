@@ -224,3 +224,6 @@ __marimo__/
 
 # Exported blog data (personal — never publish someone's export)
 posts/
+
+# Internal planning docs (kept locally, not published)
+docs/plans/
