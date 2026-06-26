@@ -1,5 +1,6 @@
 import os
 import threading
+import time
 from pathlib import Path
 from typing import Callable
 
@@ -10,17 +11,32 @@ from pydantic import BaseModel
 
 from exporter import export_account
 from resolver import AccountNotFound, resolve_account
+from webapp.cleanup import sweep
 from webapp.jobs import JobRegistry
 from webapp.runner import run_export
 
 EXPORT_DIR = Path(os.environ.get("EXPORT_DIR", "/data/exports"))
 MAX_CONCURRENT = 2
+TTL_SECONDS = 3600
+SWEEP_INTERVAL = 300
 
 app = FastAPI(title="myvision exporter")
 registry = JobRegistry()
 _semaphore = threading.Semaphore(MAX_CONCURRENT)
 
 _STATIC = Path(__file__).parent / "static"
+
+
+def _sweeper_loop() -> None:
+    while True:
+        time.sleep(SWEEP_INTERVAL)          # sleep FIRST so tests (which finish in ms) never trigger a sweep
+        try:
+            sweep(registry, ttl=TTL_SECONDS, now=time.time())
+        except Exception:
+            pass
+
+
+threading.Thread(target=_sweeper_loop, daemon=True).start()
 
 
 class ExportRequest(BaseModel):
@@ -42,7 +58,7 @@ def start_export(req: ExportRequest):
         raise HTTPException(status_code=400, detail="Некорректный логин или ссылка")
 
     EXPORT_DIR.mkdir(parents=True, exist_ok=True)
-    job = registry.create(username=username)
+    job = registry.create(username=username, now=time.time())
 
     def task() -> None:
         with _semaphore:
