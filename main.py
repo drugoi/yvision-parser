@@ -6,7 +6,6 @@ from converter import (
     extract_image_urls,
     html_to_markdown,
     rewrite_image_urls,
-    local_image_url,
 )
 from downloader import download_images
 from fetcher import fetch_all_posts

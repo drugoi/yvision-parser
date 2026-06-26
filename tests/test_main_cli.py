@@ -1,3 +1,5 @@
+import pytest
+
 import main as main_mod
 
 
@@ -13,7 +15,6 @@ def test_parse_args_custom_output():
     assert args.output == "/tmp/export"
 
 
-def test_account_is_required(capsys):
-    import pytest
+def test_account_is_required():
     with pytest.raises(SystemExit):
         main_mod.parse_args([])

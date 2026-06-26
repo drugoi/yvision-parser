@@ -1,5 +1,7 @@
+import httpx
 import pytest
 
+import resolver as resolver_mod
 from resolver import parse_account_input
 
 
@@ -44,14 +46,9 @@ def test_bare_domain_is_rejected():
         parse_account_input("https://yvision.kz")
 
 
-import httpx
-
-import resolver as resolver_mod
-
-
 def _mock_client(handler):
     transport = httpx.MockTransport(handler)
-    return httpx.Client(transport=transport, base_url=resolver_mod._API_BASE)
+    return httpx.Client(transport=transport, base_url=resolver_mod.API_BASE)
 
 
 def test_resolve_username_returns_id(monkeypatch):

@@ -2,8 +2,9 @@ from urllib.parse import urlparse
 
 import httpx
 
+from fetcher import API_BASE
+
 _BASE_DOMAIN = "yvision.kz"
-_API_BASE = "https://brain.yvision.kz/api/v2"
 
 
 def parse_account_input(account: str) -> tuple[str, str]:
@@ -46,7 +47,7 @@ class AccountNotFound(Exception):
 
 
 def _make_client() -> httpx.Client:
-    return httpx.Client(base_url=_API_BASE, timeout=30, follow_redirects=True)
+    return httpx.Client(base_url=API_BASE, timeout=30, follow_redirects=True)
 
 
 def resolve_account(account: str) -> tuple[int, str]:
