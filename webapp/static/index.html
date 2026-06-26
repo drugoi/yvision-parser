@@ -1,1 +1,45 @@
-<!doctype html><meta charset="utf-8"><title>myvision</title><p>ok</p>
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Экспорт блога yvision</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/main.js" defer></script>
+</head>
+<body>
+  <main class="card">
+    <h1>Экспорт блога yvision</h1>
+    <p class="lead">Сохраните свой блог с yvision.kz в виде файлов Markdown с картинками.</p>
+
+    <div class="form">
+      <input id="account" type="text" placeholder="Логин или ссылка (например, drugoi)" autocomplete="off">
+      <label class="check">
+        <input type="checkbox" id="images" checked>
+        <span>Скачивать изображения (медленнее, но посты сохранятся с картинками)</span>
+      </label>
+      <button id="go">Экспортировать</button>
+    </div>
+
+    <div id="progress" hidden>
+      <progress></progress>
+      <span id="ptext"></span>
+    </div>
+
+    <a id="download" hidden href="#">Скачать .zip</a>
+
+    <div id="error" hidden></div>
+
+    <details>
+      <summary>Что может не экспортироваться</summary>
+      <ul>
+        <li>Только публичные посты (черновики и приватные записи недоступны).</li>
+        <li>Некоторые старые изображения могут не загрузиться (битые ссылки или SSL) — они пропускаются.</li>
+        <li>Встроенные видео и iframe (YouTube и т.п.) сохраняются как ссылки.</li>
+        <li>Комментарии не экспортируются (сохраняется только их количество).</li>
+        <li>Очень большие блоги экспортируются дольше — держите вкладку открытой.</li>
+      </ul>
+    </details>
+  </main>
+</body>
+</html>
