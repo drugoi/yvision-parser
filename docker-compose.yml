@@ -1,0 +1,13 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8771:8000"
+    volumes:
+      - exports:/data/exports
+    environment:
+      - EXPORT_DIR=/data/exports
+    mem_limit: 1g
+volumes:
+  exports:
