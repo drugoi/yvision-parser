@@ -14,8 +14,8 @@ The web app runs in Docker behind the host's nginx. The container listens only o
 2. **nginx vhost** — on the server, install the site config:
 
    ```bash
-   cp deploy/nginx.conf /etc/nginx/sites-available/myvision.conf
-   ln -s /etc/nginx/sites-available/myvision.conf /etc/nginx/sites-enabled/myvision.conf
+   cp deploy/nginx.conf /etc/nginx/sites-available/myvision.drugoi.xyz
+   ln -s /etc/nginx/sites-available/myvision.drugoi.xyz /etc/nginx/sites-enabled/myvision.drugoi.xyz
    nginx -t && systemctl reload nginx
    ```
 
@@ -33,9 +33,9 @@ From your laptop, sync the code and (re)build the container on the server:
 ./deploy/deploy.sh
 ```
 
-This rsyncs the project to `/opt/myvision` (excluding `.venv/`, `posts/`, `docs/`,
-`.git/`, and caches), then runs `docker compose up -d --build`, validates nginx,
-and reloads it.
+This rsyncs the project to `/root/projects/myvision.drugoi.xyz` (excluding `.venv/`,
+`posts/`, `docs/`, `.git/`, and caches), then runs `docker compose up -d --build`,
+validates nginx, and reloads it.
 
 ## Notes
 

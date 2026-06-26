@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 HOST="root@drugoi.xyz"
-DEST="/opt/myvision"
+DEST="/root/projects/myvision.drugoi.xyz"
 
 rsync -az --delete \
   --exclude '.venv/' --exclude 'posts/' --exclude 'docs/' \
