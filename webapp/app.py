@@ -1,3 +1,4 @@
+import os
 import threading
 from pathlib import Path
 from typing import Callable
@@ -12,7 +13,7 @@ from resolver import AccountNotFound, resolve_account
 from webapp.jobs import JobRegistry
 from webapp.runner import run_export
 
-EXPORT_DIR = Path("/data/exports")
+EXPORT_DIR = Path(os.environ.get("EXPORT_DIR", "/data/exports"))
 MAX_CONCURRENT = 2
 
 app = FastAPI(title="myvision exporter")
