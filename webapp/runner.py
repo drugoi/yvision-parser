@@ -1,3 +1,4 @@
+import logging
 import shutil
 import tempfile
 from pathlib import Path
@@ -6,6 +7,8 @@ from typing import Callable
 from webapp.jobs import Job
 
 ExportFn = Callable[..., object]
+
+logger = logging.getLogger(__name__)
 
 
 def run_export(
@@ -27,6 +30,7 @@ def run_export(
         shutil.make_archive(str(zip_base), "zip", root_dir=work)
         job.finish(zip_path=f"{zip_base}.zip")
     except Exception as exc:  # surface any failure to the UI
+        logger.exception("export failed for job %s (account=%s)", job.id, account)
         job.fail(str(exc))
     finally:
         shutil.rmtree(work, ignore_errors=True)
