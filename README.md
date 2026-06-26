@@ -66,6 +66,26 @@ likes: 5
 Post body in Markdown…
 ```
 
+## Web app
+
+A simple Russian web UI to export a yvision blog to a downloadable zip, designed
+to run at [myvision.drugoi.xyz](https://myvision.drugoi.xyz). It shares the same
+export engine as the CLI and runs exports as background jobs.
+
+```bash
+# run locally
+EXPORT_DIR=/tmp/yv-exports uvicorn webapp.app:app --reload
+# then open http://127.0.0.1:8000
+
+# run with Docker (listens on 127.0.0.1:8771)
+docker compose up -d --build
+```
+
+To deploy to a server behind nginx, see [`deploy/README.md`](deploy/README.md).
+
+Like the CLI, the web app exports **public** posts only and respects yvision.kz's
+Terms of Service.
+
 ## Development
 
 ```bash
