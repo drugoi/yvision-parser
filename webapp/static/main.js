@@ -1,8 +1,34 @@
 const $ = (id) => document.getElementById(id);
 
+function resetDownload() {
+  const a = $("download");
+  a.hidden = true;
+  a.classList.add("is-disabled");
+  a.setAttribute("aria-disabled", "true");
+  a.removeAttribute("href");
+}
+
+// Visible but inactive while the export is still running.
+function showDownloadPending() {
+  const a = $("download");
+  a.hidden = false;
+  a.classList.add("is-disabled");
+  a.setAttribute("aria-disabled", "true");
+  a.removeAttribute("href");
+}
+
+// Active only once the zip is ready.
+function enableDownload(url) {
+  const a = $("download");
+  a.href = url;
+  a.hidden = false;
+  a.classList.remove("is-disabled");
+  a.setAttribute("aria-disabled", "false");
+}
+
 async function start() {
   $("error").hidden = true;
-  $("download").hidden = true;
+  resetDownload();
   const account = $("account").value.trim();
   if (!account) return;
   $("go").disabled = true;
@@ -23,6 +49,7 @@ async function start() {
   }
   const { job_id } = await res.json();
   $("progress").hidden = false;
+  showDownloadPending();
   poll(job_id);
 }
 
@@ -52,9 +79,7 @@ async function poll(jobId) {
     $("ptext").textContent = `Готово: ${s.done} постов`;
     bar.max = s.total || 1;
     bar.value = s.total || 1;
-    const a = $("download");
-    a.href = `/api/export/${jobId}/download`;
-    a.hidden = false;
+    enableDownload(`/api/export/${jobId}/download`);
     $("go").disabled = false;
     return;
   }
@@ -65,6 +90,7 @@ function showError(msg) {
   $("error").textContent = msg;
   $("error").hidden = false;
   $("progress").hidden = true;
+  resetDownload();
   $("go").disabled = false;
 }
 
